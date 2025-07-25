@@ -1,0 +1,34 @@
+from fastapi import FastAPI
+from src.controllers import sector
+from contextlib import asynccontextmanager
+from src.database import database
+
+
+tags_metadata = [
+    {
+        "name": "Event and Tickets",
+        "description": "API for event and ticket features"
+    }
+]
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await database.connect()
+    yield
+    await database.disconnect()
+
+app = FastAPI(title="ticketsForFootball",
+              openapi_tags=tags_metadata,
+              summary="API for event and ticket features",
+              lifespan=lifespan,
+              description="""
+## ticketsForFootball:
+You will be able to:
+
+* **Create Sector**.
+* **Update Sector**.        
+* **Delete Sector**.       
+              """)
+
+
+app.include_router(sector.router, tags=["sector"])
