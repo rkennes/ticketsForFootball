@@ -34,7 +34,7 @@ class SectorService:
         return {"message": "Sector created."}
         
     async def delete_sector(self, cnpj_param: str, sector_id:int) -> Record:
-        sector_record = await self.__get_sector(cnpj_param, sector_id)  
+        sector_record = await self._get_sector(cnpj_param, sector_id)  
 
         if not sector_record:
             return
@@ -48,7 +48,7 @@ class SectorService:
         return {"message": "Sector removed."}
     
     async def update_sector(self, sector_id:int, data:sectorIn) -> Record:
-        sector_record = await self.__get_sector(data.cnpj, sector_id)  
+        sector_record = await self._get_sector(data.cnpj, sector_id)  
 
         if not sector_record:
             return
@@ -64,8 +64,8 @@ class SectorService:
 
         return {"message": "Sector updated."}
     
-        
-    async def __get_sector(self, cnpj:str, sector_id:int) -> Record: 
+    @staticmethod
+    async def _get_sector(cnpj:str, sector_id:int) -> Record: 
         query = sector.select().where(
             (sector.c.cnpj == cnpj) & 
             (sector.c.sector_id == sector_id)) 
