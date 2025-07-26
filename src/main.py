@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from src.controllers import sector,ticket_model
+from src.controllers import sector, ticket_model, event_service
 from contextlib import asynccontextmanager
 from src.database import database
 
@@ -33,3 +33,4 @@ You will be able to:
 
 app.include_router(sector.router, tags=["sector"])
 app.include_router(ticket_model.router, tags=["ticket model"])
+app.include_router(event_service.router, tags=["event service"])
