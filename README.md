@@ -2,6 +2,9 @@
 
 This project is a **FastAPI**-based backend for managing ticket models, sectors, and service events.
 
+## Documentation 
+https://www.notion.so/ticketsForFootball-246911f3e17c80269026d39939f71a51
+
 ## Table of Contents
 
 - [Installation](#installation)
