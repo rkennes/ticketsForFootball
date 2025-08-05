@@ -8,7 +8,7 @@ router = APIRouter(prefix="/sector")
 
 service = SectorService()
 
-@router.post("", status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=sectorOut, status_code=status.HTTP_201_CREATED)
 async def create_sector(data: sectorIn):
     return await service.create_sector(data)
 

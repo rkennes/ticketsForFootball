@@ -31,7 +31,10 @@ class SectorService:
         ) 
         
         await database.execute(command) 
-        return {"message": "Sector created."}
+        return {"cnpj": data.cnpj,
+                "sector_id": next_id,
+                "name": data.name,
+        }
         
     async def delete_sector(self, cnpj_param: str, sector_id:int) -> Record:
         sector_record = await self._get_sector(cnpj_param, sector_id)  
