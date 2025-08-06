@@ -21,6 +21,8 @@ if config.config_file_name is not None:
 from src.database import engine, metadata
 from src.models.sector import sector 
 from src.models.ticket_model import ticket_model
+from src.models.login import login
+
 target_metadata = metadata
 
 
