@@ -18,25 +18,25 @@ class SectorService:
             sector.c.cnpj == cnpj_param).limit(limit).offset(skip)
         return await database.fetch_all(query) 
         
-    async def create_sector(self, data:sectorIn) -> Record:  
-        query = select(func.max(sector.c.sector_id)).where(sector.c.cnpj == data.cnpj)
+    async def create_sector(self, data: sectorIn, cnpj: str) -> Record:  
+        query = select(func.max(sector.c.sector_id)).where(sector.c.cnpj == cnpj)
         last_id = await database.fetch_val(query) or 0
         next_id = last_id + 1
         
         command = sector.insert().values(
-            cnpj=data.cnpj,
+            cnpj=cnpj,
             sector_id = next_id,
             name=data.name,  
 		    created_at=self.get_created_at(data.created_at), 
         ) 
         
         await database.execute(command) 
-        return {"cnpj": data.cnpj,
+        return {"cnpj": cnpj,
                 "sector_id": next_id,
                 "name": data.name,
         }
         
-    async def delete_sector(self, cnpj_param: str, sector_id:int) -> Record:
+    async def delete_sector(self, sector_id: int, cnpj_param: str) -> Record:
         sector_record = await self._get_sector(cnpj_param, sector_id)  
 
         if not sector_record:
@@ -50,14 +50,14 @@ class SectorService:
 
         return {"message": "Sector removed."}
     
-    async def update_sector(self, sector_id:int, data:sectorIn) -> Record:
-        sector_record = await self._get_sector(data.cnpj, sector_id)  
+    async def update_sector(self, sector_id:int, data:sectorIn,  cnpj_param: str) -> Record:
+        sector_record = await self._get_sector(cnpj_param, sector_id)  
 
         if not sector_record:
             return
         
         sector_record = sector.update().where(
-             (sector.c.cnpj == data.cnpj) & 
+             (sector.c.cnpj == cnpj_param) & 
              (sector.c.sector_id == sector_id)
              ).values(
             name=data.name

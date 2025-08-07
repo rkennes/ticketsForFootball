@@ -6,11 +6,13 @@ from src.utils.security import hash_password, verify_password
 from sqlalchemy import select, and_
 from fastapi import HTTPException
 from src.utils.validators import is_valid_cnpj, is_valid_password, is_valid_email, is_valid_corporate_name
+from security import sign_jwt
 
 
 class LoginService:
     
-    async def validate_login_informations(self, data: LoginIn) -> dict: 
+    @staticmethod
+    def validate_login_informations(data: LoginIn): 
         if not is_valid_cnpj(data.cnpj):
             raise HTTPException(status_code=400, detail="CNPJ invalid.")
                 
@@ -22,13 +24,12 @@ class LoginService:
         
         if not is_valid_corporate_name(data.corporate_name):
             raise HTTPException(status_code=400, detail="Corporate name invalid.")
+        
 
     async def create_login(self, data: LoginIn) -> dict:
         
-        validate_infos = await self.validate_login_informations(data)
-        if not validate_infos:
-            return        
-
+        self.validate_login_informations(data)
+        
         query = select(login).where(
             (login.c.cnpj == data.cnpj) & (login.c.email == data.email)
         )
@@ -49,10 +50,11 @@ class LoginService:
         user = await database.fetch_one(query)
         if not user or not verify_password(data.password, user["password"]):
             raise HTTPException(status_code=401, detail="Invalid Credentials.")
-
+        
         return {
             "message": "Login successful",
             "cnpj": user["cnpj"],
             "email": user["email"],
-            "corporate_name": user["corporate_name"]
+            "corporate_name": user["corporate_name"],
+            "access_token": sign_jwt(data.cnpj)
         }

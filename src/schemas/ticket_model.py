@@ -8,7 +8,6 @@ class TicketModelSectorIn(BaseModel):
     ticket_load: int
 
 class TicketModelIn(BaseModel):
-    cnpj: str
     name: str
     created_at: datetime | None = None
     sectors: List[TicketModelSectorIn]

@@ -13,22 +13,27 @@ class EventService:
         query = event_service.select().where(event_service.c.cnpj == cnpj)
         return await database.fetch_all(query)
 
-    async def create_event_service(self, data: EventServiceIn) -> dict:
+    async def create_event_service(self, data: EventServiceIn, cnpj: str) -> dict:
         
-        validate_ticketModel = await TicketModelService._validate_model(data.cnpj, data.ticket_model_id)
+        validate_ticketModel = await TicketModelService._validate_model(cnpj, data.ticket_model_id)
         if not validate_ticketModel:
             return  
       
         query_max_id = select(func.max(event_service.c.event_service_id)).where(
-            event_service.c.cnpj == data.cnpj
+            event_service.c.cnpj == cnpj
         )
         last_id = await database.fetch_val(query_max_id) or 0
         next_id = last_id + 1
 
-        values = data.model_dump()
-        values["event_service_id"] = next_id
-
-        await database.execute(event_service.insert().values(**values))
+        await database.execute(event_service.insert().values(
+            cnpj=cnpj,
+            event_service_id=next_id,
+            ticket_model_id=data.ticket_model_id,
+            name=data.name,
+            event_date=data.event_date,
+            event_address=data.event_address,
+            event_description=data.event_description
+        ))
 
         return {"message": "EventService created.", "event_service_id": next_id}
 

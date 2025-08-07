@@ -63,14 +63,14 @@ class TicketModelService:
 
         return list(grouped.values()) 
         
-    async def create_ticketModel(self, data: TicketModelIn) -> dict:
+    async def create_ticketModel(self, data: TicketModelIn, cnpj: str) -> dict:
         # Validação dos setores
         for sector_data in data.sectors:
-            await SectorService._get_sector(data.cnpj, sector_data.sector_id)
+            await SectorService._get_sector(cnpj, sector_data.sector_id)
 
         # Geração do próximo ID
         query = select(func.max(ticket_model.c.ticket_model_id)).where(
-            ticket_model.c.cnpj == data.cnpj
+            ticket_model.c.cnpj == cnpj
         )
         last_id = await database.fetch_val(query) or 0
         next_id = last_id + 1
@@ -78,7 +78,7 @@ class TicketModelService:
         # Inserir no ticket_model
         await database.execute(
             ticket_model.insert().values(
-                cnpj=data.cnpj,
+                cnpj=cnpj,
                 ticket_model_id=next_id,
                 name=data.name,
                 created_at=self.get_created_at(data.created_at),
@@ -89,7 +89,7 @@ class TicketModelService:
         for sector_data in data.sectors:
             await database.execute(
                 ticket_model_sector.insert().values(
-                    cnpj=data.cnpj,
+                    cnpj=cnpj,
                     ticket_model_id=next_id,
                     sector_id=sector_data.sector_id,
                     price=sector_data.price,
@@ -118,7 +118,7 @@ class TicketModelService:
         )
         await database.execute(delete_model_query)
 
-        return {"message": "Ticket model and its sectors deleted successfully."}
+        return {"message": "Ticket model deleted successfully."}
     
     async def delete_sector_from_model(self, cnpj: str, ticket_model_id: int, sector_id: int) -> dict:
         validate_model = await self._validate_model(cnpj, ticket_model_id)
