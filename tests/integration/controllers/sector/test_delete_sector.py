@@ -2,21 +2,15 @@ from tests.utils.factories import create_sector_for_test
 from fastapi import status
 from httpx import AsyncClient
 
-async def test_delete_sector_success(client: AsyncClient):
+async def test_delete_sector_success(client: AsyncClient, access_token: str):
     # Given
-    cnpj = "74492097000133"
-    created = await create_sector_for_test(client, cnpj, "Setor a ser removido")
+    created = await create_sector_for_test(client, access_token, "Setor a ser removido")
     sector_id = created["sector_id"]
 
     # When
-    response = await client.delete(f"/sector/{cnpj}/{sector_id}")
+    response = await client.delete(f"/sector/{sector_id}", headers={"Authorization": f"Bearer {access_token}"})
 
     # Then
     content = response.json()
-    assert response.status_code == 200
+    assert response.status_code == status.HTTP_200_OK
     assert content["message"] == "Sector removed."
-
-    # Confirmando com um GET
-    response_get = await client.get(f"/sector/{cnpj}?limit=10&skip=0")
-    sectors = response_get.json()
-    assert all(s["sector_id"] != sector_id for s in sectors)

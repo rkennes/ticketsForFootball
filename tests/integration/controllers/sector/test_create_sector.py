@@ -1,13 +1,13 @@
 from fastapi import status
 from httpx import AsyncClient 
 
-async def test_create_sector_success(client: AsyncClient):
+async def test_create_sector_success(client: AsyncClient, access_token: str):
     # Given
-    #headers = {"Authorization": f"Bearer {access_token}"}
-    data = {"cnpj" : "74492097000133", "name" : "automated test one"}
+    headers = {"Authorization": f"Bearer {access_token}"}
+    data = {"name" : "automated test one"}
     
     # When 
-    response = await client.post("/sector", json=data)
+    response = await client.post("/sector", json=data, headers=headers)
     
     # Then 
     content = response.json()
