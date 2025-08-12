@@ -44,6 +44,8 @@ def run_migrations_offline() -> None:
     script output.
 
     """
+    
+    print("Running migrations offline...")
     url = env_config("SYNC_DATABASE_URL")
     context.configure(
         url=url,
@@ -57,6 +59,7 @@ def run_migrations_offline() -> None:
 
 
 def run_migrations_online() -> None:
+    print("Running migrations online...")
     connectable = create_engine(
         env_config("SYNC_DATABASE_URL"),
         poolclass=pool.NullPool
