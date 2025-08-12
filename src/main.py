@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from src.controllers import sector, ticket_model, event_service, login
 from contextlib import asynccontextmanager
 from src.database import database
@@ -30,6 +30,12 @@ You will be able to:
 * **Delete Sector**.       
               """)
 
+
+@app.middleware("http")
+async def log_method(request: Request, call_next):
+    print(f"Request method: {request.method}, URL: {request.url}")
+    response = await call_next(request)
+    return response
 
 app.include_router(sector.router, tags=["sector"])
 app.include_router(ticket_model.router, tags=["ticket model"])
