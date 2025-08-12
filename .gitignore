@@ -1,0 +1,67 @@
+# Arquivos de ambiente local com segredos
+.env
+.env.*.local
+
+# Bytecode Python compilado
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pastas e arquivos temporários do sistema
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.temp
+
+# Pastas de ambiente virtual (venv, env)
+venv/
+env/
+.venv/
+
+# Docker
+docker-compose.override.yml
+docker-compose.local.yml
+data/
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Mypy cache
+.mypy_cache/
+
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Arquivos SQLite locais (se usar)
+*.sqlite3
+
+# Arquivos de build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Caches do pip
+pip-wheel-metadata/
+
+# Arquivos gerados pelo Poetry
+.poetry/
+
+# Pylint reports
+pylint-report.txt
+pylint-global.txt
