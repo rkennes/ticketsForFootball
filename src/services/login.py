@@ -31,7 +31,7 @@ class LoginService:
         self.validate_login_informations(data)
         
         query = select(login).where(
-            (login.c.cnpj == data.cnpj) & (login.c.email == data.email)
+            (login.c.cnpj == data.cnpj) 
         )
         existing = await database.fetch_one(query)
         if existing:
@@ -45,7 +45,7 @@ class LoginService:
 
     async def validate_login(self, data: LoginAuth) -> dict:
         query = select(login).where(
-            (login.c.cnpj == data.cnpj) & (login.c.email == data.email)
+            (login.c.email == data.email)
         )
         user = await database.fetch_one(query)
         if not user or not verify_password(data.password, user["password"]):
@@ -56,5 +56,5 @@ class LoginService:
             "cnpj": user["cnpj"],
             "email": user["email"],
             "corporate_name": user["corporate_name"],
-            "access_token": sign_jwt(data.cnpj)
+            "access_token": sign_jwt(user["cnpj"])
         }

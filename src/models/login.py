@@ -9,5 +9,6 @@ login = sa.Table(
     sa.Column('password', sa.String, nullable=False),
     sa.Column('corporate_name', sa.String, nullable=False),
     sa.Column('created_at', sa.DateTime, server_default=sa.func.now()),
-    sa.PrimaryKeyConstraint('cnpj','email')
+    sa.PrimaryKeyConstraint('cnpj'),
+    sa.Index('ix_login_email_password', 'email', 'password')
 )
