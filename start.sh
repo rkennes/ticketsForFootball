@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Rodar as migrations
-alembic upgrade head
+echo "Rodando alembic upgrade head..."
+python -m alembic upgrade head 2>&1 | tee alembic.log
 
-# Subir o servidor Uvicorn
+echo "Subindo uvicorn..."
 uvicorn src.main:app --host 0.0.0.0 --port 8000
