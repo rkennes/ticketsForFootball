@@ -1,5 +1,5 @@
 from fastapi import FastAPI,Request
-from src.controllers import sector, ticket_model, event_service, login
+from src.controllers import sector, ticket_model, event_service, login, login_permission, permission_type
 from contextlib import asynccontextmanager
 from src.database import database
 
@@ -41,3 +41,5 @@ app.include_router(sector.router, tags=["sector"])
 app.include_router(ticket_model.router, tags=["ticket model"])
 app.include_router(event_service.router, tags=["event service"])
 app.include_router(login.router, tags=["login"])
+app.include_router(login_permission.router, tags=["login_permission"])
+app.include_router(permission_type.router, tags=["permission_type"])

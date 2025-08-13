@@ -22,6 +22,8 @@ from src.database import engine, metadata
 from src.models.sector import sector 
 from src.models.ticket_model import ticket_model
 from src.models.login import login
+from src.models.permission_type import permission_type
+from src.models.login_permission import login_permission
 
 target_metadata = metadata
 
