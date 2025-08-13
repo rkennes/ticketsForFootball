@@ -21,14 +21,7 @@ app = FastAPI(title="ticketsForFootball",
               openapi_tags=tags_metadata,
               summary="API for event and ticket features",
               lifespan=lifespan,
-              description="""
-## ticketsForFootball:
-You will be able to:
-
-* **Create Sector**.
-* **Update Sector**.        
-* **Delete Sector**.       
-              """)
+              )
 
 
 @app.middleware("http")

@@ -5,7 +5,7 @@ from src.services.event_service import EventService
 from security import login_required
 from src.utils.helper import get_current_cnpj
 
-router = APIRouter(prefix="/event_service", dependencies=[Depends(login_required)], tags=["Event Service"])
+router = APIRouter(prefix="/event_service", dependencies=[Depends(login_required)])
 
 service = EventService()
 

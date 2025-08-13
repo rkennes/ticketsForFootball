@@ -1,9 +1,16 @@
 # Tickets For Football API
+This project is a ticket management backend system built with FastAPI and PostgreSQL, hosted on Railway with a cloud database. It allows creating and managing events, sectors, and ticket models for different companies, identified by their CNPJ.
 
-This project is a **FastAPI**-based backend for managing ticket models, sectors, and service events.
-
-## Documentation 
-https://www.notion.so/ticketsForFootball-246911f3e17c80269026d39939f71a51
+## Technical Specification
+Backend: FastAPI
+Database: PostgreSQL (Cloud-hosted)
+ORM: SQLAlchemy (Core)
+Migrations: Alembic
+Async DB Access: databases library
+Testing: Pytest + HTTPX
+Code Style: PEP8, Black
+Environment: Dockerized (optional)
+Hosting: Railway (backend + database)
 
 ## Table of Contents
 
@@ -39,7 +46,7 @@ poetry run uvicorn src.main:app --reload
 ```
 
 The interactive API documentation will be available at:  
-http://localhost:8000/docs
+https://web-production-9c283.up.railway.app/docs
 
 ---
 

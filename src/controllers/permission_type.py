@@ -5,7 +5,7 @@ from src.services.permission_type import PermissionTypeService
 from security import login_required
 from src.utils.helper import get_current_cnpj
 
-router = APIRouter(prefix="/permission_type", dependencies=[Depends(login_required)], tags=["Permission Type"])
+router = APIRouter(prefix="/permission_type", dependencies=[Depends(login_required)])
 service = PermissionTypeService()
 
 @router.get("", response_model=list[PermissionTypeOut])

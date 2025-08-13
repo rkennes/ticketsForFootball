@@ -5,7 +5,7 @@ from src.services.login_permission import LoginPermissionService
 from security import login_required
 from src.utils.helper import get_current_cnpj
 
-router = APIRouter(prefix="/login_permission", dependencies=[Depends(login_required)], tags=["Login Permission"])
+router = APIRouter(prefix="/login_permission", dependencies=[Depends(login_required)])
 service = LoginPermissionService()
 
 @router.get("", response_model=list[LoginPermissionOut])
